@@ -236,7 +236,11 @@ class SendGridTransport extends AbstractTransport
         $response = $http
             ->post("{$this->getConfig('apiEndpoint')}/mail/send", json_encode($this->_reqParams), $headers);
 
-        return $response->getJson();
+        if( $response->getStatusCode() >= 200 && $response->getStatusCode() < 400 ){
+            return true;
+        }
+        
+        return false;
     }
 
     /**
